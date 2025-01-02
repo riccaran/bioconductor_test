@@ -1,0 +1,92 @@
+# bioconductor install (RTools required)
+
+# Install BiocManager
+install.packages("BiocManager")
+
+# Install the GenomicRanges package
+BiocManager::install("GenomicRanges")
+
+# Check version
+library(BiocManager)
+version() # or also sessionInfo()
+
+# Load GenomicRanges
+library(GenomicRanges)
+
+# Check for update necessity
+valid()
+
+# Load the BSgenome package
+library(BSgenome)
+
+# check for S4 system in objects
+isS4(myDescriptor) # or also str(myDescriptor) and see if it starts with "Formal class"
+
+MyEpicProject <- setClass(# Define class name with UpperCamelCase)
+                          "MyEpicProject",
+                          # Define slots, helpful for validation 
+                          slots = c(ini = "Date",
+                                    end = "Date",
+                                    milestone = "character"),
+                          # Define inheritance
+                          containts = "MyProject")
+
+# Get a summary of the accessors of a main class
+.S4methods(class = "GenomeDescriptor")
+
+# Get a summary of the ancestors of a subclass class
+showMethods(classes = "GenomeDescriptor", where = search())
+
+# Get a summary for an object
+show(myDescriptor)
+
+# What is a_genome's main class?
+class(a_genome)  # "BSgenome"
+
+# What is a_genome's other classes?
+is(a_genome)  # "BSgenome", "Annotated"
+
+# Is a_genome an S4 representation?
+isS4(a_genome)  # TRUE
+
+# Investigate the a_genome using show()
+show(a_genome)
+
+# Investigate some other accesors
+organism(a_genome)
+provider(a_genome)
+seqinfo(a_genome)
+
+# The yeast genome can be load using BSgenome
+# Load the package and store data into yeast
+library(BSgenome.Scerevisiae.UCSC.sacCer3)
+yeast <- library(BSgenome.Scerevisiae.UCSC.sacCer3) # it can be explored using the canonical R functions head(seqnames(yeast)) and tail(seqlengths(yeast))
+
+# Number of chromosomes
+lenght(yeast)
+
+# Names of the chromosomes
+name(yeast)
+
+# length of each chromose by DNA pairs
+#seqlengths(yeast)
+
+# Select entire genomic sequence (S4), returning all of the sequences in the yeast genome
+getSeq(yeast)
+
+# Argument to select sequences from specific chromosomes, such as chromosome M
+getSeq(yeast, names = "chrM") # it is also possible to use yeast$chrM
+
+# Argument to specify the locations of the subsequences to extract using, "start", "end" and "width"
+getSeq(yeast, end=10) # selects the first 10 base pairs of each chromosome of the genome
+
+# Count characters of the chrM sequence
+nchar(yeast$chrM)
+
+# Other available genomes
+available.genomes()
+
+# Biostrings package implements algorithms for fast manipulation of large biological sequences
+# Biostrings package contains two generic containers: XString (single sequence) and XStringSet (many sequences)
+BiocManager::install("Biostrings")
+
