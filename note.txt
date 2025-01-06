@@ -90,3 +90,58 @@ available.genomes()
 # Biostrings package contains two generic containers: XString (single sequence) and XStringSet (many sequences)
 BiocManager::install("Biostrings")
 
+dna_seq <- DNAString("ATGATCTCGTAA")
+rna_seq <- RNAString(dna_seq)
+aa_seq <- translate(rna_seq) # also working with dna_seq
+
+# Load packages
+library(Biostrings)
+
+# Check the alphabet of the zikaVirus
+alphabet(zikaVirus)
+
+# Check the alphabetFrequency of the zikaVirus
+alphabetFrequency(zikaVirus)
+
+# Check alphabet of the zikaVirus using baseOnly = TRUE
+alphabet(zikaVirus, baseOnly = TRUE)
+
+# Unlist the set, select the first 21 letters, and assign to dna_seq
+dna_seq <- subseq(unlist(zikaVirus), end = 21) # "unlist" used ith sets to collate the elements into a single sequence
+
+# Transcribe and translate dna_seq into an AAString object and print it
+aa_seq <- translate(dna_seq)
+
+#### Create a StringSet and collate it ####
+
+# Read the sequence as a set
+zikaVirus <- readDNAStringSet("data/zika.fa")
+length(zikaVirus) # the set contains only one sequence
+width(zikaVirus)  # and width 10794 bases
+
+# Collate the sequence
+zikaVirus_seq <- unlist(zikaVirus)
+
+length(zikaVirus_seq) #10794 characters
+
+# To create a new set from a single sequence
+zikaSet <- DNAStringSet(zikaVirus_set, start = c(1, 101, 201), end = c(100, 200, 300))
+
+length(zikaVirus_seq) #3
+width(zikaVirus)  # "100 100 100"
+
+# use the complement
+
+a_seq = DNAString("ATGATCTCGTAA")
+complement(a_seq)
+
+# use the reverse
+
+a_seq = DNAString("ATGATCTCGTAA")
+rev(a_seq)
+
+# use the reverse complement
+
+reverse(complement(a_seq))
+reverseComplement(a_seq))
+
