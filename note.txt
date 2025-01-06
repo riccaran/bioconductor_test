@@ -145,3 +145,48 @@ rev(a_seq)
 reverse(complement(a_seq))
 reverseComplement(a_seq))
 
+#### Pattern matching ####
+
+matchPattern(pattern, subject) # 1 str to 1 str
+vmatchPatternpattern, subject) # 1 set of str.s to 1 str / 1 str to a set of strs
+
+#### Palindromes ####
+
+findPalindromes() # find palindromic regions in a single sequence
+
+# For Sets
+vmatchPattern(pattern = "ACATGGGCCTACCATGGGAG", 
+              subject = zikaVirus, max.mismatch = 1)
+# For single sequences
+matchPattern(pattern = "ACATGGGCCTACCATGGGAG", 
+              subject = zikv, max.mismatch = 1)
+
+#### Find the RF of a specific protein ####
+# Print rnaframesZikaSet
+rnaframesZikaSet
+
+# Translate rnaframesZikaSet
+AAzika6F <- translate(rnaframesZikaSet)
+AAzika6F
+
+# Count NS5 protein matches in AAzika6F, allowing 15 mismatches
+vcountPattern(pattern = NS5, subject = AAzika6F, max.mismatch = 15)
+
+# Subset the frame that contains the match from AAzika6F
+selectedSet <- AAzika6F[3] 
+
+# Convert selectedSet into a single sequence
+selectedSeq <- unlist(selectedSet)
+
+#### IRanges with numeri arguments for manipulating intervals of sequences ####
+
+lirabry(IRanges)
+
+myIRanges <- IRanges(start = 200, end = 30)
+
+(myIRanges_width <- IRanges(start = c(1, 20), end = (30, 11)))
+(myIRanges_end <- IRanges(start = c(1, 20), end = 30))
+
+# Rle (run length encoding) definition to compute and store the length and values of a vector or factor
+
+
