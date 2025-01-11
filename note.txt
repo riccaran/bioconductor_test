@@ -203,6 +203,8 @@ IRanges(start = c(FALSE, FALSE, TRUE, TRUE))
 width(seq)
 lengths(seq)
 
+#### GRanges ####
+
 # Genomic Ranges package
 library(GenomicRanges)
 
@@ -239,3 +241,56 @@ hg_chrXg <- genes(hg, filter = list(tx_chrom = c("chrX")))
 # Extract all positive stranded genes in chromosome X, assign to hg_chrXgp, then sort it
 hg_chrXgp <- genes(hg, filter = list(tx_chrom = c("chrX"), tx_strand = "+"))
 sort(hg_chrXgp)
+
+# GRangesList-class (an efficient container for storing large collections of GRanges)
+
+# to construct a GRangesList
+as(mylist, ""GRangesList")
+GRangesList(myGranges1, myGranges2, myGranges3)
+
+# to convert back to GRanges
+unlist(myGRangesList)
+
+# to split GRanges objects into sub-elements (it returns a GRangesList element)
+slidingWindows(hg:crX, width = 20000, step = 10000)
+
+# GenomicFeatures
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+hg <- TxDb.Hsapiens.UCSC.hg38.knownGene
+
+# prefilter results to chrX
+seqlevels(hg) <- c("chrX")
+
+# transcripts extracting function
+transcript(hg, columns = c("tx_id", "tx_name"), filter = NULL)
+
+# exons extracting function
+exons(hg, columns = c("tx_id", "tx_name"), filter = list(tx_id = "179161"))
+
+# To find genes of interest in a larger interval or collection of intervals
+overlapsAny(ABCD1, hg_chrX)
+
+# integer vector of counts
+countOverlaps(query, subject)
+
+# Hits object
+findOverlaps(query, subject)
+
+# GRangesList object
+subsetOverlaps(query, subject)
+
+# Example
+
+# Load the human transcripts DB to hg
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+hg <- TxDb.Hsapiens.UCSC.hg38.knownGene
+
+# Prefilter chromosome X "chrX" using seqlevels()
+seqlevels(hg) <- c("chrX")
+
+# Get all transcripts by gene and print it
+hg_chrXt <- transcriptsBy(hg, by = "gene")
+hg_chrXt
+
+# Select gene `215` from the hg_chrXt
+hg_chrXt$`215`
