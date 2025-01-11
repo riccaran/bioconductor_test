@@ -178,9 +178,15 @@ selectedSet <- AAzika6F[3]
 # Convert selectedSet into a single sequence
 selectedSeq <- unlist(selectedSet)
 
-#### IRanges with numeri arguments for manipulating intervals of sequences ####
+#### IRanges with numerical arguments for manipulating intervals of sequences ####
 
+# IRanges are hierarchical data structures and can contain metadata
 lirabry(IRanges)
+
+# The IRanges() constructor indicates that all of the parameters are optional with default NULL
+IRanges(start = NULL, end = NULL, width = NULL, names = NULL)
+
+# Missing arguments will be resolved using the equation width = end - start + 1.
 
 myIRanges <- IRanges(start = 200, end = 30)
 
@@ -189,4 +195,11 @@ myIRanges <- IRanges(start = 200, end = 30)
 
 # Rle (run length encoding) definition to compute and store the length and values of a vector or factor
 
+# In this case the first two elements are skipped and the range has a width of 2
+# If there are FALSE expressions in the middle, the ranges will be split
+IRanges(start = c(FALSE, FALSE, TRUE, TRUE))
+
+# width and lengths functions are both used to check the width
+width(seq)
+lengths(seq)
 
