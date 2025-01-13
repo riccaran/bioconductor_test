@@ -357,3 +357,37 @@ nucByCycle %>%
   labs(y = "Frequency") +
   theme_bw() +
   theme(panel.grid.major.x = element_blank())
+
+#### Match and filter ####
+
+# Counting duplicates TRUE is the number of duplicates
+table(srduplicated(dfsample))
+
+# Cleaning reads from duplicated x[fun(x)]
+clearReads <- mydReads[srduplicated(mydReads) == FALSE]
+
+# Use a custom filter to remove reads from fqsample
+# This filter to remove reads Shorter than a min mumber of bases
+minWidth <- 51
+readWidthCutOff <- srFilter(function(x) {width(x) >= minWidth},
+                            name = "MinWidth")
+
+# Save your filter, .name is optional
+myFilter <- nFilter(threshold = 10, .name = "cleanNFilter")
+
+# Use the filter at reading point
+filtered <- readFastq(dirPath = "data", pattern = ".fastq", filter = myFilter)
+
+myFilterID <- idfilter(regex = ":3:1")
+
+# Will return only those ids that contain the rgular expression
+
+# Optional parameters are .name, fixed and exclude
+# Use the filter at reading point
+filtered <- readFastq(dirPath = "data", pattern = ".fastq", filter = myFilterID)
+
+# Will return the sequences that have a maximum number of 10 consecutive A's
+# Use the filter for subsetting
+filtered[myFilterPolyA(filtered)]
+
+
