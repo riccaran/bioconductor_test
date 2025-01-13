@@ -390,4 +390,34 @@ filtered <- readFastq(dirPath = "data", pattern = ".fastq", filter = myFilterID)
 # Use the filter for subsetting
 filtered[myFilterPolyA(filtered)]
 
+#### Multiple assessment ####
 
+library(Rqc)
+
+files <- "data/seq1.fq" "data/seq2.fq" "data/seq3.fq" "data/seq4.fq"
+
+# given the path of the files resulting in a list object
+qaRqc <- rqcQA(files, workers = 4)
+
+perFileInformation(qaRqc)
+
+set.seed(123)
+
+qaRqc_sample <- rqcQA(files, workers = 4, sample = TRUE, n = 500))
+
+# Paired-end fails
+pfiles <- "data/seq_11.fq" "data/seq1_2.fq" "data/seq2_1.fq" "data/seq2_2.fq"
+qaRqc_paired <- rqcQA(pfiles, workers = 4, pair = c(1, 1, 2, 2)))
+
+# To create a report
+reportFile <- rqcReport(qaRqc, templateFile = "myReport.Rmd")
+browseURL(reportFile) # For browser visualization
+
+# Average per cycle quality plot
+rqcCycleAverageQualityPlot(qa)
+
+# Average per cycle quality plot with white background
+rqcCycleAverageQualityPlot(qa)
+
+# Read quality plot with white background
+rqcReadQualityPlot(qa)
