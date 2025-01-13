@@ -294,3 +294,27 @@ hg_chrXt
 
 # Select gene `215` from the hg_chrXt
 hg_chrXt$`215`
+
+#### Sequence files ####
+
+library(ShortRead)
+
+# Read fasta
+fasample <- readFasta(dirPath = "data/", pattern = "fasta")
+
+# Write a ShortRead object
+writeFasta(fasample, file = "data/sample.fasta")
+
+# Read fastq (qualityType nd filter are particular arguments for reading fastq files with readFastq())
+fqsample <- readFastq(dirPath = "data/", pattern = "fastq")
+
+# Write a ShortRead object
+writeFastq(fqsample, file = "data/sample.fastq.gz")
+
+# Subsampling
+set.seed(123)
+sampler <- FastqSampler("data/SRR1971253.fastq", 500)
+
+# save the yield of 500 read sequences
+sample_small <- yield(sampler)
+
