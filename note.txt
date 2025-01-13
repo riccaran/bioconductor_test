@@ -318,3 +318,42 @@ sampler <- FastqSampler("data/SRR1971253.fastq", 500)
 # save the yield of 500 read sequences
 sample_small <- yield(sampler)
 
+#### Sequence quality ####
+
+# Quality encoding
+encoding(quality(fqsample))
+quality(fqsample)
+
+quality(fqsample)[1]
+
+# To Transform the score into numerical
+pq <- PhredQaulity(quality(fqsample))
+qs <- as(pq, "IntegerList")
+
+# Quality assessment
+qaSummary <- qa(fqsample, lane = 1) # Optional lane
+names(qaSummary)
+
+# sequence alphabet
+alphabet(sread(fullSample))
+
+abc <- alphabetByCycle(sread(fullSample))
+
+# Each observation is a letter and each variable is a cycle. First, select the 4 first rows nulceotides A, C, G, T and then transpose
+nucByCycle <- t(abc[1:4,])
+
+nucByCycle <- numByCycle %>% as_tibble() %>% # convert to tibble
+                      mutate(cycle = 1:50) # add cycle Numbers
+
+# Glimpse nucByCycle
+glimpse(nucByCycle)
+
+# Create a line plot of cycle vs. count
+nucByCycle %>% 
+  # Gather the nucleotide letters in alphabet and get a new count column
+  pivot_longer(-cycle, names_to = "alphabet", values_to = "count") %>% 
+  ggplot(aes(x = cycle, y =  count, color = alphabet)) +
+  geom_line(size = 0.5 ) +
+  labs(y = "Frequency") +
+  theme_bw() +
+  theme(panel.grid.major.x = element_blank())
